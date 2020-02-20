@@ -35,4 +35,4 @@ emitter.on('log', console.info);
 emitter.emit('log', 'Hello!');
 
 emitter.emit('unknown event');
-// emitter.emit('error');
+emitter.emit('error');
