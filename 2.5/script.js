@@ -17,7 +17,6 @@
             var target = document.getElementById(targetId);
             if (target.dataset.hasOwnProperty('required')) {
                 target.classList.add(inputErrorClass);
-                console.log(targetId);
             }
         };
         function numberCheck(target) {
@@ -32,17 +31,21 @@
         }
         function formCheck(id) {
             var allFormInputes = document.querySelectorAll('#'+id+' input');
-            allFormInputes.forEach(element => {
+            allFormInputes.forEach(function (element) {
                 console.log(element);
             });
         }
 
         form.addEventListener('blur', function(event) {
-            dataRequiredCheck(event.target.getAttribute('id'), inputErrorClass);
-            dataValidCheck(event.target, inputErrorClass);
+            if (event.target.tagName == "INPUT") {
+                dataRequiredCheck(event.target.getAttribute('id'), inputErrorClass);
+                dataValidCheck(event.target, inputErrorClass);
+            }
         }, true);
         form.addEventListener('focus', function(event) {
-            event.target.classList.remove('input_error');
+            if (event.target.tagName == "INPUT") {
+                event.target.classList.remove('input_error');
+            }
         }, true);
         form.addEventListener('submit', function(event) {
             event.preventDefault();
