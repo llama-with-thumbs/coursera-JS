@@ -35,4 +35,7 @@ emitter.on('log', console.info);
 emitter.emit('log', 'Hello!');
 
 emitter.emit('unknown event');
-emitter.emit('error');
+emitter.emit('error'); 
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB44xgQx41KunwVpWno-WCaRzqJi7HvevA&callback=initMap"
+type="text/javascript"></script> 

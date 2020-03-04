@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Add element on click</title>
+    <style>
+        .div {
+            width: 100px;
+            height: 100px;
+            background-color: green;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class='div'>inside</div>
+    <script>
+        var element = document.createElement('div');
+        element.className = 'div';
+        document.querySelector('.div').addEventListener('click', function(){
+                document.body.appendChild(element);
+                console.log('func');
+        });
+    </script>
+</body>
+</html>
