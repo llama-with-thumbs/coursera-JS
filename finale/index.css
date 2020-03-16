@@ -1,0 +1,53 @@
+html, body {
+    height: 100%;
+    background-color: #CFD0CF;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 800px;
+    min-height: 800px;
+
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.game-name {
+    font-size: 42px;
+    color: #434344;
+}
+.game-frame {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
+
+}
+.emoji-card-face {
+    font-size: 75px;
+    display: flex;
+    cursor: pointer;
+
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+    transition: transform 2s;
+
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 130px;
+    background-color: #22AB93;
+    box-sizing: border-box;
+
+    border: solid white 5px;
+    border-radius: 9px;
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+    background: linear-gradient(45deg, rgba(34,171,147,1), rgba(25,102,141,1));
+}
+
+.emoji-card-face:hover {
+    transform: rotateY(180deg);
+}
