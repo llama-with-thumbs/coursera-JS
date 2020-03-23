@@ -11,16 +11,20 @@
     <h1 class="game-name">Memoji</h1>
 
     <section class="game-frame" id="game-frame">
-        <div class="emoji-card-face" id="emoji-card-face"></div>
-        <!-- <div class="emoji-card-back" id="emoji-card-back"></div> -->
-    </section>
+        <div class="emoji-card" id="emoji-card">
+            <div class="emoji-card__frame" id="emoji-card__frame">
+                <div class="emoji-card__face" id="emoji-card__face"></div>
+                <div class="emoji-card__back" id="emoji-card__back"></div>
+            </div>
+        </div>
+    </section> 
     
     
     <script src="./script.js"></script>
     <script>
-        multiplyCards('emoji-card-face', 'game-frame', 11);
-        populateCards('emoji-card-face', ["🐶","🐱","🐭","🐹","🐰","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐙","🐵","🦄","🐞","🦀","🐟","🐊","🐓","🦃","🐿"]);
+        rippleFlip('game-frame');
+        multiplyCards('emoji-card', 'game-frame', 11);
+        populateCards('emoji-card__face', ["🐶","🐱","🐭","🐹","🐰","🐻","🐼","🐨","🐯","🦁","🐮","🐷","🐸","🐙","🐵","🦄","🐞","🦀","🐟","🐊","🐓","🦃","🐿"]);
     </script>
-
 </body>
 </html>

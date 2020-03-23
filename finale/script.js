@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 (function() {
     function shuffleArray(array) {
@@ -10,25 +10,54 @@
         }
         return array;
     }
-    function getRandomArbitrary(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
+
+    function rippleFunc(event) {
+        var ripple = document.createElement("span");
+        document.getElementsByTagName("BODY")[0].appendChild(ripple);
+        ripple.classList.add("ripple");
+
+        console.log(event.clientY, event.clientX);
+        ripple.style.top = (event.clientY - 30) + "px";
+        ripple.style.left = (event.clientX - 30) + "px";
+
+        ripple.classList.add("active");
+        setTimeout(function() {
+            ripple.classList.remove("active");
+        }, 400);
     }
+    window.rippleFlip = function(elementId) {
+        var frame = document.getElementById(elementId);
+
+        frame.addEventListener('click', function(event) {
+            console.log(event.target.classList);
+            if (event.target.classList.contains("emoji-card__face") || event.target.classList.contains("emoji-card__back")) {
+                rippleFunc(event);
+                var target = document.getElementById(event.target.id);
+                var face = document.getElementById(event.target.id).parentElement;
+                face.classList.contains("flipped") ? face.classList.remove("flipped") : face.classList.add("flipped");
+            }
+        })
+    }
+
     window.multiplyCards = function (elementId, containerId, quantity) {
-        // elementId - id of the element being multiplied, //container - is were the copies will land, quantity - is number of objects
-        for (i = 0; i < quantity; i++) {
+        for (var i = 0; i < quantity; i++) {
             var card = document.getElementById(elementId).cloneNode(true);
-            card.id = card.id+i;
+            card.id = card.id + "-" + i;
+            for (var j = 0, nodeList = card.querySelectorAll("*"); j < nodeList.length; j++) {
+                nodeList[j].id = nodeList[j].id + "-" + i;
+            }
             document.getElementById(containerId).appendChild(card);
         }
         return undefined;
     }
-    window.populateCards = function (elementID, emojiList) {
+
+    window.populateCards = function (elementClass, emojiList) {
         shuffleArray(emojiList);
-        var cardList = Array.from(document.querySelectorAll("."+elementID));
+        var cardList = Array.from(document.querySelectorAll("."+elementClass));
         var colibEmojiList = emojiList.slice(0,cardList.length/2).concat(emojiList.slice(0,cardList.length/2));
         shuffleArray(colibEmojiList);
 
-        for (i = 0; i < cardList.length; i++) {
+        for (var i = 0; i < cardList.length; i++) {
             var t = document.createTextNode(colibEmojiList[i]);
             document.getElementById(cardList[i].id).appendChild(t);
         }
