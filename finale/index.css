@@ -70,6 +70,15 @@ body {
     transform: rotateY(180deg);
     
   }
+  .emoji-card__face::selection {
+    color: none;
+    background: none;
+}
+/* For Mozilla Firefox */
+  .emoji-card__face::-moz-selection {
+    color: none;
+    background: none;
+}
   
   .emoji-card__back {
     background: linear-gradient(45deg,  rgba(25,102,141,1), rgba(34,171,147,1));
