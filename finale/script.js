@@ -2,6 +2,8 @@
 class EmojiCard {
     open = false;
     active = true;
+    deactivate;
+
     domElement;
     emoji;
     domCardFace;
@@ -10,11 +12,10 @@ class EmojiCard {
     constructor(domElement) {
         this.domElement = domElement;
         this.cardId = domElement.id;
-        // console.log(this.cardId);
     }
 }
 class GameBord {
-    cardList = {};
+    allCards = {};
     openCards = {};
 
     greenCards = {};
@@ -24,24 +25,31 @@ class GameBord {
         this.multiplyCards(gameBordId, quantity);
         this.placeEmoji(cardDeck, emojiConClass);
     }
-    makeGreen (card1, card2, openCards) {
-        card1.domCardFace.style.backgroundColor = "green";
-        card1.domCardFace.style.borderColor = "green";
-        card1.active = false;
+    makeGreen (openCards, greenCards) {
+        // console.log("running makeGreen");
+        // console.log(openCards);
 
-        card2.domCardFace.style.backgroundColor = "green";
-        card2.domCardFace.style.borderColor = "green";
-        card2.active = false;
+        Object.keys(openCards).forEach(function(cardId) {
+            if(openCards[cardId].active) {
+                openCards[cardId].domCardFace.style.backgroundColor = "#5AD66F";
+                openCards[cardId].domCardFace.style.borderColor = "#5AD66F";
+                openCards[cardId].active = false;
 
-        delete openCards[card1.emoji];
-        console.log(openCards);
+                greenCards[cardId] = openCards[cardId];
+                delete openCards[cardId];
+            }
+        })
     }
-    makeRed (openCards) {
-        Object.keys(openCards).forEach(function(emoji) {
-            if(openCards[emoji].active) {
-                openCards[emoji].domCardFace.style.backgroundColor = "red";
-                openCards[emoji].domCardFace.style.borderColor = "red";
-                openCards[emoji].active = true;
+    makeRed (openCards, redCards) {
+        // console.log("runnign makeRed");
+        Object.keys(openCards).forEach(function(cardId) {
+            if(openCards[cardId].active) {
+                openCards[cardId].domCardFace.style.backgroundColor = "#F44336";
+                openCards[cardId].domCardFace.style.borderColor = "#F44336";
+                openCards[cardId].active = true;
+
+                redCards[cardId] = openCards[cardId];
+                delete openCards[cardId];
             }
         })
     }
@@ -51,47 +59,77 @@ class GameBord {
         card.active = true;
     }
     open (card) {
+        // console.log("running open(card)");
+
         card.open = true;
         card.domCardFace.parentElement.classList.add("flipped");
-        // this.addCard(card);
-        if (this.openCards.hasOwnProperty(card.emoji) && Object.keys(this.openCards).length == 1) {
-            this.makeGreen(card, this.openCards[card.emoji], this.openCards);
-            
-        } else if (Object.keys(this.openCards).length == 0) {
-            this.openCards[card.emoji] = card;
-        } else if (Object.keys(this.openCards).length == 1) {
-            this.openCards[card.emoji] = card;
-            this.makeRed(this.openCards);
-        } else {
-            for (var i = 0, emojiList = Object.keys(this.openCards); i < emojiList.length; i++) {
-                console.log(emojiList[i], i);
-                this.close(this.openCards[emojiList[i]]);
-                // console.log("this case");   
-                // this.openCards[card.emoji] = card;
+        this.openCards[card.cardId] = card;
+
+        var cardIdList = Object.keys(this.openCards);
+        var redCardIdList = Object.keys(this.redCards);
+        
+        // console.log("cardIdList.length", cardIdList.length);
+
+        if (cardIdList.length == 2 && redCardIdList.length == 0) {
+            if(this.openCards[cardIdList[0]].emoji != this.openCards[cardIdList[1]].emoji) {
+                // console.log("starting make red");
+                // console.log(this.openCards[cardIdList[0]].emoji, this.openCards[cardIdList[1]].emoji);
+                this.makeRed(this.openCards, this.redCards);
+            } else {
+                // console.log("starting make green");
+                // console.log(this.openCards[cardIdList[0]].emoji, this.openCards[cardIdList[1]].emoji);
+                this.makeGreen(this.openCards, this.greenCards);
             }
+            
+            // console.log("openCards", this.openCards);
+            // console.log("redCards", this.redCards);
+            // console.log("greenCards", this.greenCards);
+
+        } else if (redCardIdList.length != 0) {
+            // console.log("running close redCards");
+            this.close();
+            card.open = true;
+            card.domCardFace.parentElement.classList.add("flipped");
+            this.openCards[card.cardId] = card;
+
+        }
+        // console.log("swiched after if");
+        // console.log(this.openCards);
+    }
+    close () {
+        // console.log("runing close(card)");
+        for (var i = 0, cardIdList = Object.keys(this.openCards); i < cardIdList.length; i++) {
+            // console.log("FOR for openCards");
+
+            this.openCards[cardIdList[i]].domCardFace.parentElement.classList.remove("flipped");
+            this.openCards[cardIdList[i]].open = false;
+            this.makeWhite(this.openCards[cardIdList[i]]);
+            delete this.openCards[cardIdList[i]];   
         }
 
-        console.log(this.openCards);
+        for (var i = 0, cardIdList = Object.keys(this.redCards); i < cardIdList.length; i++) {
+            // console.log("FOR for redCards");
 
-    }
-    close (card) {
-        card.domCardFace.parentElement.classList.remove("flipped");
-        card.open = false;
-        delete this.openCards[card.emoji];
-        this.makeWhite(card);
-        console.log(this.openCards);
+            this.redCards[cardIdList[i]].domCardFace.parentElement.classList.remove("flipped");
+            this.redCards[cardIdList[i]].open = false;
+            this.makeWhite(this.redCards[cardIdList[i]]);
+            delete this.redCards[cardIdList[i]];   
+        }
+
+        // console.log("open cards", this.openCards);
+        // console.log("open red cards", this.redCards);
+        // console.log("open green cards", this.greenCards);
+        // console.log("exit from close(card)");
     }
 
     flip (card) {
         if (card.open && card.active) {
+            // console.log("run close(card)");
             this.close(card);
         } else if (!card.open && card.active) {
+            // console.log("run open(card)")
             this.open(card);
-        } else if (card.open && !card.active) {
-            console.log("card green");
-        } else {
-            console.log("came card");
-        }
+        } 
     }
 
     
@@ -99,7 +137,7 @@ class GameBord {
         for (var i = 0; i < quantity; i++) {
             var card = document.getElementById(gameBordId).firstElementChild.cloneNode(true);
             card.id = card.id + "-" + i;
-            this.cardList[card.id] = new EmojiCard(card);
+            this.allCards[card.id] = new EmojiCard(card);
             for (var j = 0, nodeList = card.querySelectorAll("*"); j < nodeList.length; j++) {
                 nodeList[j].id = nodeList[j].id + "-" + i;
                 nodeList[j].dataset.card = card.id;
@@ -109,20 +147,22 @@ class GameBord {
         document.getElementById(gameBordId).firstElementChild.remove();
     }
     placeEmoji (cardDeck, emojiConClass) {
-        var selectedEmoji = shuffleArray(cardDeck).slice(0, Object.keys(this.cardList).length / 2);
+        var selectedEmoji = shuffleArray(cardDeck).slice(0, Object.keys(this.allCards).length / 2);
         selectedEmoji = selectedEmoji.concat(selectedEmoji);
         
         shuffleArray(selectedEmoji);
         
-        for (var i = 0; i < Object.keys(this.cardList).length; i++) {
-            var card = this.cardList[Object.keys(this.cardList)[i]];
+        for (var i = 0; i < Object.keys(this.allCards).length; i++) {
+            var card = this.allCards[Object.keys(this.allCards)[i]];
             card.emoji = selectedEmoji[i];
             card.domCardFace = card.domElement.querySelector("." + emojiConClass);
             card.domCardFace.appendChild(document.createTextNode(card.emoji));
 
-            console.log(card.emoji, i);
+            // console.log(card.emoji, i);
             card.domElement.addEventListener("click", function(event) {
-                bord.flip(bord.cardList[event.target.dataset.card]);
+                if (event.target.className != "emoji-card") {
+                    bord.flip(bord.allCards[event.target.dataset.card]);
+                }                
             });
         }
     }

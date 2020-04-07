@@ -1,0 +1,132 @@
+body{
+  background-color: #CFD0CF;
+  text-align: center;
+  width: 100%;
+  margin: 0;
+}
+h1{
+  font-family: "Arial" sans-serif;
+  font-size: 42px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: #434344;
+}
+.image{
+  font-size: 75px;
+  z-index: 0;
+  position: relative;
+  bottom: 140px;
+  background-color: white;
+  width: 140px;
+  height: 140px;
+  border-radius: 9px;
+}
+main{
+  width: 645px;
+  height: 490px;
+  margin: 0 auto;
+}
+.block{
+  width: 130px;
+  height: 130px;
+  border-style: solid;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(45deg,#22AB93,#19668D);
+  border-radius: 9px;
+  border-color: white;
+  border-width: 5px;
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+  vertical-align: top;
+  perspective: 600px;
+}
+.wrapper{
+  width: 140px;
+  height: 140px;
+  display: inline-block;
+  position: relative;
+  margin: 4px;
+  vertical-align: top;
+}
+.block:active{
+  transform: rotateY(180deg);
+  transition-duration: 1s;
+  z-index: 0;
+}
+.block:active ~ .image{
+  transform: rotateY(180deg);
+  transition-duration: 1s;
+  z-index: 1;
+}
+.block:hover{
+  cursor: pointer;
+}
+#time{
+  font-family: Arial sans-serif;
+  font-size: 32px;
+  color: #434344;
+  margin-top: 30px;
+  font-weight: bold;
+}
+.notification{
+  background-color: white;
+  width: 350px;
+  height: 208px;
+  position: absolute;
+  z-index: 3;
+  bottom: 50%;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  visibility: hidden;
+}
+.shadow{
+  width: 100%;
+  height: 120%;
+  position: absolute;
+  z-index: 2;
+  background-color: black;
+  opacity: 80%;
+  margin-top: -100px;
+  visibility: hidden;
+}
+h2{
+  margin-top: 30px;
+  margin-bottom: 40px;
+  font-size: 48px;
+  color: #434344;
+  font-weight: bold;
+  font-family: Arial sans-serif;
+}
+button{
+  margin-bottom: 30px;
+  color: white;
+  font-size: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  background: linear-gradient(90deg,#19668D,#22AB93);
+  font-weight: bold;
+  box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.75);
+  border-width: 0;
+}
+
+
+span{
+  display: inline-block;
+  animation-name: example;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+@keyframes example {
+  0% {transform: translateY(0%);}
+  50% {transform: translateY(-30%);}
+  100% {transform: translateY(0%);}
+}

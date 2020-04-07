@@ -1,0 +1,173 @@
+html, body
+{
+    margin: 0;
+    padding: 0;
+    background-color: #CFD0CF;
+}
+
+p
+{
+    margin: 0;
+    padding: 0;
+}
+
+.main-content
+{
+    width: 635px;
+    margin: 0 auto;
+}
+
+.main-content > .header
+{
+    margin: 40px 0 40px 0;
+    width: 100%;
+    text-align: center;
+    font-family: "Arial", serif;
+    font-size: 47px;
+    color: #434344;
+    line-height: 42px;
+}
+
+.main-content > .game-field
+{
+    display: grid;
+    grid-template-columns: 20px 130px 25px 130px 25px 130px 25px 130px 20px;
+    grid-template-rows: 130px 25px 130px 25px 130px;
+}
+
+.card
+{
+    display: grid;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    perspective: 600px;
+}
+
+.front-card, .back-card {
+    backface-visibility: hidden;
+}
+
+.front-card
+{
+    display: grid;
+    grid-column: 1;
+    grid-row: 1;
+    border: 5px solid #f1f1f1;
+    background: linear-gradient(to top right, #22AB93, #19668D);
+    color: black;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.card:hover > .front-card
+{
+    background: linear-gradient(to top right, #22b49c, #18749a);
+}
+
+.back-card
+{
+    display: grid;
+    grid-column: 1;
+    grid-row: 1;
+    border: 5px solid #f1f1f1;
+    background-color: white;
+    transform: rotateY(180deg);
+    font-size: 75px;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.rotated > .front-card
+{
+    transform: rotateY(180deg);
+    transition: 1s;
+}
+
+.rotated > .back-card
+{
+    transform: rotateY(360deg);
+    transition: 1s;
+}
+
+.card:nth-child(1)
+{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.card:nth-child(2)
+{
+    grid-row: 1;
+    grid-column: 4;
+}
+
+.card:nth-child(3)
+{
+    grid-row: 1;
+    grid-column: 6;
+}
+
+.card:nth-child(4)
+{
+    grid-row: 1;
+    grid-column: 8;
+}
+
+.card:nth-child(5)
+{
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.card:nth-child(6)
+{
+    grid-row: 3;
+    grid-column: 4;
+}
+
+.card:nth-child(7)
+{
+    grid-row: 3;
+    grid-column: 6;
+}
+
+.card:nth-child(8)
+{
+    grid-row: 3;
+    grid-column: 8;
+}
+
+.card:nth-child(9)
+{
+    grid-row: 5;
+    grid-column: 2;
+}
+
+.card:nth-child(10)
+{
+    grid-row: 5;
+    grid-column: 4;
+}
+
+.card:nth-child(11)
+{
+    grid-row: 5;
+    grid-column: 6;
+}
+
+.card:nth-child(12)
+{
+    grid-row: 5;
+    grid-column: 8;
+}
+
+.blocked > .back-card
+{
+    background: #5AD66F;
+}
+
+.wrong > .back-card
+{
+    background: #F44336;
+}
