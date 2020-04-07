@@ -28,7 +28,6 @@ class GameBord {
     makeGreen (openCards, greenCards) {
         // console.log("running makeGreen");
         // console.log(openCards);
-
         Object.keys(openCards).forEach(function(cardId) {
             if(openCards[cardId].active) {
                 openCards[cardId].domCardFace.style.backgroundColor = "#5AD66F";
@@ -167,7 +166,6 @@ class GameBord {
         }
     }
 }
-
 
 var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
