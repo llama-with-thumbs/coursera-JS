@@ -131,7 +131,6 @@ class GameBord {
         } 
     }
 
-    
     multiplyCards (gameBordId, quantity) {
         for (var i = 0; i < quantity; i++) {
             var card = document.getElementById(gameBordId).firstElementChild.cloneNode(true);
@@ -145,6 +144,7 @@ class GameBord {
         }
         document.getElementById(gameBordId).firstElementChild.remove();
     }
+
     placeEmoji (cardDeck, emojiConClass) {
         var selectedEmoji = shuffleArray(cardDeck).slice(0, Object.keys(this.allCards).length / 2);
         selectedEmoji = selectedEmoji.concat(selectedEmoji);
@@ -170,6 +170,19 @@ class GameBord {
 var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
     bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck);
+
+    function setTimer(elementClass) {
+        var timer = document.createElement("DIV");
+        var time = document.createTextNode("00:60");
+        timer.appendChild(time);
+        document.body.appendChild(timer);
+        return undefined;
+    }
+    setTimer("body");
+
+    
+
+    return undefined;
 }
 
 
@@ -182,3 +195,6 @@ function shuffleArray(array) {
     }
     return array;
 }
+
+
+
