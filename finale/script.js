@@ -21,10 +21,13 @@ class GameBord {
     greenCards = {};
     redCards = {};
 
-    constructor (gameBordId, emojiConClass, quantity, cardDeck) {
+    constructor (gameBordId, emojiConClass, quantity, cardDeck, setShield) {
         this.multiplyCards(gameBordId, quantity);
         this.placeEmoji(cardDeck, emojiConClass);
+
+        setShield(gameBordId); // creats transperent lear behiend the bord;
     }
+    
     makeGreen (openCards, greenCards) {
         // console.log("running makeGreen");
         // console.log(openCards);
@@ -169,22 +172,29 @@ class GameBord {
 
 var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
-    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck);
+
+    function setShield(shieldedElementId){
+        var shield = document.createElement("DIV");
+        shield.style.position = "absolute";
+        shield.style.width = "100px";
+        shield.style.height = "100px";
+
+        document.body.appendChild(shield).classList.add("shield");
+    }
+
+    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield);
 
     function setTimer(elementClass) {
-        var timer = document.createElement("DIV");
+        var timer = document.createElement("H3");
         var time = document.createTextNode("00:60");
         timer.appendChild(time);
-        document.body.appendChild(timer);
+        document.body.appendChild(timer).classList.add("timer");
         return undefined;
     }
     setTimer("body");
 
-    
-
     return undefined;
 }
-
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
