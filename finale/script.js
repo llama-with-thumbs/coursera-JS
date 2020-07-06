@@ -174,14 +174,33 @@ var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
 
     function setShield(shieldedElementId){
-        var shield = document.createElement("DIV");
+        let shield = document.createElement("DIV");
+        let domRect = document.getElementById(shieldedElementId).getBoundingClientRect()
+        shield.style.width = domRect.width + "px";
+        shield.style.height = domRect.height + "px";
         shield.style.position = "absolute";
-        shield.style.width = "100px";
-        shield.style.height = "100px";
-
+        shield.style.left = domRect.x + "px";
+        shield.style.top = domRect.y + "px";
+        shield.style.backgroundColor = "green";
+        shield.style.zIndex  = "-1";
         document.body.appendChild(shield).classList.add("shield");
-    }
 
+        function changeDepth(){
+            console.log(shield.style.zIndex);
+            if (shield.style.zIndex < 0) {
+                shield.style.zIndex = "1";
+            } else {
+                shield.style.zIndex = "-1";
+            }
+        }
+        document.body.addEventListener("click", changeDepth);
+
+        function reportWindowSize() {
+            console.log("resize");
+          }  
+        window.onresize = reportWindowSize;
+    }
+    
     bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield);
 
     function setTimer(elementClass) {
