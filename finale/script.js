@@ -21,11 +21,12 @@ class GameBord {
     greenCards = {};
     redCards = {};
 
-    constructor (gameBordId, emojiConClass, quantity, cardDeck, setShield) {
+    constructor (gameBordId, emojiConClass, quantity, cardDeck, setShield, setTimer) {
         this.multiplyCards(gameBordId, quantity);
         this.placeEmoji(cardDeck, emojiConClass);
 
-        setShield(gameBordId); // creats transperent lear behiend the bord;
+        setShield(gameBordId, setTimer); // creats transperent lear behiend the bord;
+         // creating timer
     }
     
     makeGreen (openCards, greenCards) {
@@ -173,44 +174,58 @@ class GameBord {
 var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
 
-    function setShield(shieldedElementId){
-        let shield = document.createElement("DIV");
-        let domRect = document.getElementById(shieldedElementId).getBoundingClientRect()
-        shield.style.width = domRect.width + "px";
-        shield.style.height = domRect.height + "px";
-        shield.style.position = "absolute";
-        shield.style.left = domRect.x + "px";
-        shield.style.top = domRect.y + "px";
-        shield.style.backgroundColor = "green";
-        shield.style.zIndex  = "-1";
-        document.body.appendChild(shield).classList.add("shield");
-
+    function setShield(shieldedElementId, setTimer){
         function changeDepth(){
-            console.log(shield.style.zIndex);
-            if (shield.style.zIndex < 0) {
-                shield.style.zIndex = "1";
+            if (fullScreenBlock.style.zIndex < 0) {
+                fullScreenBlock.style.zIndex = "1";
             } else {
-                shield.style.zIndex = "-1";
+                fullScreenBlock.style.zIndex = "-1";
             }
         }
-        document.body.addEventListener("click", changeDepth);
-
         function reportWindowSize() {
             console.log("resize");
-          }  
+        }
+
+        let domRect = document.getElementById(shieldedElementId).getBoundingClientRect();
+        let notice = document.createElement("DIV");
+        let fullScreenBlock = document.createElement("DIV");
+        let button = document.createElement("BUTTON");
+
+        fullScreenBlock.style.zIndex = -1;
+        button.innerHTML = "Play again";
+
+        fullScreenBlock.appendChild(notice).classList.add("notice");
+        document.body.appendChild(fullScreenBlock).classList.add("fullScreenBlock");
+        notice.appendChild(button).classList.add("restartButton");
+
+        setTimer("body", changeDepth);
         window.onresize = reportWindowSize;
     }
     
-    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield);
+    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield, setTimer);
 
-    function setTimer(elementClass) {
+    function setTimer(containerID, collbeck) {
+        let secondsNum = 60;
+        function decreaseTime(){
+            secondsNum--;
+            if (secondsNum >= 10) {
+                timer.innerHTML = "00:" + secondsNum;
+            } else if (secondsNum >= 0) {
+                timer.innerHTML = "00:0" +secondsNum;
+            } else {
+                clearInterval(myTimer);
+                collbeck();
+            }
+            
+        }
         var timer = document.createElement("H3");
         var time = document.createTextNode("00:60");
         timer.appendChild(time);
-        document.body.appendChild(timer).classList.add("timer");
-        return undefined;
+        document.getElementById(containerID).appendChild(timer).classList.add("timer");
+
+        let myTimer = setInterval(function(){decreaseTime()}, 10);
+
     }
-    setTimer("body");
 
     return undefined;
 }
