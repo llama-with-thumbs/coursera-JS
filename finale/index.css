@@ -84,7 +84,7 @@ body {
 }
   
   .emoji-card__back {
-    background: linear-gradient(45deg,  rgba(25,102,141,1), rgba(34,171,147,1));
+    background: linear-gradient(45deg, #22AB93, #19668D);
   }
 
   .ripple {
@@ -131,4 +131,28 @@ body {
   background-color: white;
   min-width: 350px;
   text-align: center;
+}
+
+.restartButton {
+  height: 40px;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  line-height: 40px;
+  font-size: 20px;
+  border: 0px;
+  border: none;
+  border-radius: 9px;
+  color: white;
+  box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.75);
+  background: linear-gradient(90deg, #19668D, #22AB93) ;
+  outline: none;
+}
+
+.restartButton:active {
+  box-shadow: inset 2px 1px 10px 0px rgba(0,0,0,0.75);
+}
+
+.result {
+  font-size: 48px;
+  margin: 30px 0 40px 0;
 }

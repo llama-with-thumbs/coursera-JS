@@ -190,19 +190,21 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
         let notice = document.createElement("DIV");
         let fullScreenBlock = document.createElement("DIV");
         let button = document.createElement("BUTTON");
+        let result = document.createElement("H3");
 
         fullScreenBlock.style.zIndex = -1;
         button.innerHTML = "Play again";
+        result.innerHTML = "Result";
 
         fullScreenBlock.appendChild(notice).classList.add("notice");
         document.body.appendChild(fullScreenBlock).classList.add("fullScreenBlock");
+        notice.appendChild(result).classList.add("result");
         notice.appendChild(button).classList.add("restartButton");
+        button.addEventListener("click", function(){console.log("click");}) /*clicking the button and restarting the game*/
 
         setTimer("body", changeDepth);
         window.onresize = reportWindowSize;
     }
-    
-    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield, setTimer);
 
     function setTimer(containerID, collbeck) {
         let secondsNum = 60;
@@ -224,9 +226,9 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
         document.getElementById(containerID).appendChild(timer).classList.add("timer");
 
         let myTimer = setInterval(function(){decreaseTime()}, 10);
-
     }
 
+    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield, setTimer); /*starting the game here*/
     return undefined;
 }
 
