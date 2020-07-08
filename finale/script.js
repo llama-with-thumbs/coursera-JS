@@ -169,8 +169,14 @@ class GameBord {
             });
         }
     }
+
+    restartGame () {
+
+        console.log("restart the game");
+    }
 }
 
+/*running code*/
 var bord;
 function setGame(bordId, emojiConClass, cardCount, cardDeck) {
 
@@ -200,7 +206,7 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
         document.body.appendChild(fullScreenBlock).classList.add("fullScreenBlock");
         notice.appendChild(result).classList.add("result");
         notice.appendChild(button).classList.add("restartButton");
-        button.addEventListener("click", function(){console.log("click");}) /*clicking the button and restarting the game*/
+        button.addEventListener("click", function(){console.log("click"); bord.restartGame();}) /*clicking the button and restarting the game*/
 
         setTimer("body", changeDepth);
         window.onresize = reportWindowSize;
@@ -229,6 +235,7 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
     }
 
     bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield, setTimer); /*starting the game here*/
+
     return undefined;
 }
 
