@@ -21,12 +21,15 @@ class GameBord {
     greenCards = {};
     redCards = {};
 
-    constructor (gameBordId, emojiConClass, quantity, cardDeck, setShield, setTimer) {
+    gameScore = "Wasted";
+
+    constructor (gameBordId, emojiConClass, quantity, cardDeck) {
         this.multiplyCards(gameBordId, quantity);
         this.placeEmoji(cardDeck, emojiConClass);
+        this.setTimer("body");
 
-        setShield(gameBordId, setTimer); // creats transperent lear behiend the bord;
-         // creating timer
+        // this.setShield("body", this.setTimer); // creates transparent layer behind the board ; and setting the timer
+    
     }
     
     makeGreen (openCards, greenCards) {
@@ -165,22 +168,13 @@ class GameBord {
             card.domElement.addEventListener("click", function(event) {
                 if (event.target.className != "emoji-card") {
                     bord.flip(bord.allCards[event.target.dataset.card]);
+                    bord.setShield(bord.startTimer);
                 }                
             });
         }
     }
 
-    restartGame () {
-
-        console.log("restart the game");
-    }
-}
-
-/*running code*/
-var bord;
-function setGame(bordId, emojiConClass, cardCount, cardDeck) {
-
-    function setShield(shieldedElementId, setTimer){
+    setShield(cb){
         function changeDepth(){
             if (fullScreenBlock.style.zIndex < 0) {
                 fullScreenBlock.style.zIndex = "1";
@@ -192,7 +186,6 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
             console.log("resize");
         }
 
-        let domRect = document.getElementById(shieldedElementId).getBoundingClientRect();
         let notice = document.createElement("DIV");
         let fullScreenBlock = document.createElement("DIV");
         let button = document.createElement("BUTTON");
@@ -200,19 +193,32 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
 
         fullScreenBlock.style.zIndex = -1;
         button.innerHTML = "Play again";
-        result.innerHTML = "Result";
+        button.onclick = function(){bord.restartGame(fullScreenBlock)};/*clicking the button is restarting the game*/
+        console.log("green cards", this.greenCards);
+        console.log("all cards", this.allCards);
+        console.log("opened cards", this.openCards);
+        result.innerHTML = this.gameScore;
 
         fullScreenBlock.appendChild(notice).classList.add("notice");
         document.body.appendChild(fullScreenBlock).classList.add("fullScreenBlock");
         notice.appendChild(result).classList.add("result");
         notice.appendChild(button).classList.add("restartButton");
-        button.addEventListener("click", function(){console.log("click"); bord.restartGame();}) /*clicking the button and restarting the game*/
 
-        setTimer("body", changeDepth);
+        if(cb && typeof cb === "function") {
+            cb(document.getElementsByClassName("timer")[0], changeDepth);
+        }
         window.onresize = reportWindowSize;
     }
 
-    function setTimer(containerID, collbeck) {
+    setTimer(containerID) {
+        if (!document.getElementsByClassName("timer").length) {
+            let timer = document.createElement("H3");
+            let time = document.createTextNode("00:60");
+            timer.appendChild(time);
+            document.getElementById(containerID).appendChild(timer).classList.add("timer");
+        }
+    }
+    startTimer(timer, cb) {
         let secondsNum = 60;
         function decreaseTime(){
             secondsNum--;
@@ -222,19 +228,26 @@ function setGame(bordId, emojiConClass, cardCount, cardDeck) {
                 timer.innerHTML = "00:0" +secondsNum;
             } else {
                 clearInterval(myTimer);
-                collbeck();
+                if(cb && typeof cb === "function") {
+                    cb();
+                }
             }
-            
         }
-        var timer = document.createElement("H3");
-        var time = document.createTextNode("00:60");
-        timer.appendChild(time);
-        document.getElementById(containerID).appendChild(timer).classList.add("timer");
-
-        let myTimer = setInterval(function(){decreaseTime()}, 10);
+        let myTimer = setInterval(function(){decreaseTime()}, 1000);
     }
 
-    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck, setShield, setTimer); /*starting the game here*/
+    restartGame (shield) {
+        console.log("restart the game");
+        shield.remove();
+        
+    }
+}
+
+/*running code*/
+var bord;
+function setGame(bordId, emojiConClass, cardCount, cardDeck) {
+
+    bord = new GameBord(bordId, emojiConClass, cardCount, cardDeck); /*starting the game here*/
 
     return undefined;
 }
